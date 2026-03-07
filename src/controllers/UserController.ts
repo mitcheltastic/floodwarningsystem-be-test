@@ -33,7 +33,7 @@ export class UserController {
 
   // GET /users (restricted to SUPER_ADMIN / MASTER_ADMIN)
   getAllUsers = async (req: Request, res: Response) => {
-    const requestor = req.user
+    const requestor = (req as any).user
     if (!requestor || (requestor.role !== Role.SUPER_ADMIN && requestor.role !== Role.MASTER_ADMIN)) {
       return res.status(403).json({
         success: false,
@@ -52,7 +52,7 @@ export class UserController {
 
   // GET /users/:id (own profile or admin access)
   getUserById = async (req: Request, res: Response) => {
-    const requestor = req.user
+    const requestor = (req as any).user
     const { id } = req.params
     const parsedId = parseInt(id)
 
@@ -85,7 +85,7 @@ export class UserController {
 
   // POST /users (Restricted)
   createUser = async (req: Request, res: Response) => {
-    const requestor = req.user
+    const requestor = (req as any).user
     const data = req.body
     const result = await this.userService.createUser(data, requestor!)
 
@@ -98,7 +98,7 @@ export class UserController {
 
   // DELETE /users/:id (Restricted)
   deleteUser = async (req: Request, res: Response) => {
-    const requestor = req.user
+    const requestor = (req as any).user
     const { id } = req.params
     const parsedId = parseInt(id)
 
