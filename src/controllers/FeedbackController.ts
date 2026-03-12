@@ -21,4 +21,12 @@ export class FeedbackController {
     const result = await this.service.markAsRead(parsedId)
     return res.status(result.success ? 200 : 404).json(result)
   }
+
+  delete = async (req: Request, res: Response) => {
+    const parsedId = parseInt(req.params.id)
+    if (isNaN(parsedId)) return res.status(400).json({ success: false, message: 'Invalid ID' })
+
+    const result = await this.service.deleteFeedback(parsedId)
+    return res.status(result.success ? 200 : 404).json(result)
+  }
 }

@@ -19,4 +19,8 @@ export class FeedbackRepository {
       data: { isRead: true },
     })
   }
+
+  async delete(id: number) {
+    return await prisma.feedback.delete({ where: { id } })
+  }
 }
