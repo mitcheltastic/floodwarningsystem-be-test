@@ -166,7 +166,7 @@ export class BbwsController {
       // 2. UBAH DI SINI JUGA
       const data = await this.bbwsService.createDebit(stationId, debit)
       
-      await this.logService.logAction(req.user?.id, 'CREATE', 'BbwsDebit', `Input debit air di ${data.station.name}: ${debit} m³/s`)
+      await this.logService.logAction((req as any).user?.id, 'CREATE', 'BbwsDebit', `Input debit air di ${data.station.name}: ${debit} m³/s`)
       
       return res.status(201).json({ success: true, message: 'Data debit berhasil disimpan', data })
     } catch (error) {
@@ -180,7 +180,7 @@ export class BbwsController {
       // 3. UBAH DI SINI JUGA
       const data = await this.bbwsService.createRainfall(stationId, rainfall)
       
-      await this.logService.logAction(req.user?.id, 'CREATE', 'BbwsRainfall', `Input curah hujan di ${data.station.name}: ${rainfall} mm`)
+      await this.logService.logAction((req as any).user?.id, 'CREATE', 'BbwsRainfall', `Input curah hujan di ${data.station.name}: ${rainfall} mm`)
       
       return res.status(201).json({ success: true, message: 'Data curah hujan berhasil disimpan', data })
     } catch (error) {
