@@ -7,7 +7,7 @@ export class ActivityLogController {
   private service = new ActivityLogService()
 
   getLogs = async (req: Request, res: Response) => {
-    const requestor = req.user as UserPayload
+    const requestor = (req as any).user as UserPayload
     
     if (requestor.role !== Role.SUPER_ADMIN && requestor.role !== Role.MASTER_ADMIN) {
       return res.status(403).json({ success: false, message: 'Akses ditolak' })
@@ -18,7 +18,7 @@ export class ActivityLogController {
   }
 
   exportLogs = async (req: Request, res: Response) => {
-    const requestor = req.user as UserPayload
+    const requestor = (req as any).user as UserPayload
     
     if (requestor.role !== Role.SUPER_ADMIN && requestor.role !== Role.MASTER_ADMIN) {
       return res.status(403).json({ success: false, message: 'Akses ditolak' })

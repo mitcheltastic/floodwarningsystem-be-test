@@ -12,7 +12,7 @@ export class BmkgController {
       const data = await this.service.createWeather(stationId, temperature, windSpeed, forecast, notes)
       
       // Catat ke log
-      await this.logService.logAction(req.user?.id, 'CREATE', 'BmkgWeather', `Input cuaca di ${data.station.name}: ${forecast}, ${temperature}°C`)
+      await this.logService.logAction((req as any).user?.id, 'CREATE', 'BmkgWeather', `Input cuaca di ${data.station.name}: ${forecast}, ${temperature}°C`)
       
       return res.status(201).json({ success: true, message: 'Data cuaca berhasil disimpan', data })
     } catch (error) {
@@ -25,7 +25,7 @@ export class BmkgController {
       const { stationId, rainfall } = req.body
       const data = await this.service.createRainfall(stationId, rainfall)
       
-      await this.logService.logAction(req.user?.id, 'CREATE', 'BmkgRainfall', `Input curah hujan di ${data.station.name}: ${rainfall} mm`)
+      await this.logService.logAction((req as any).user?.id, 'CREATE', 'BmkgRainfall', `Input curah hujan di ${data.station.name}: ${rainfall} mm`)
       
       return res.status(201).json({ success: true, message: 'Data curah hujan berhasil disimpan', data })
     } catch (error) {
