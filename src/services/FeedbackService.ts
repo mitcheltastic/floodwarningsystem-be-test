@@ -38,4 +38,17 @@ export class FeedbackService {
       return { success: false, message: (error as Error).message }
     }
   }
+
+  async deleteFeedback(id: number) {
+    try {
+      // Pastikan feedback ada sebelum dihapus
+      const feedback = await this.repository.findById(id)
+      if (!feedback) return { success: false, message: 'Feedback tidak ditemukan' }
+
+      await this.repository.delete(id)
+      return { success: true, message: 'Feedback berhasil dihapus' }
+    } catch (error) {
+      return { success: false, message: (error as Error).message }
+    }
+  }
 }

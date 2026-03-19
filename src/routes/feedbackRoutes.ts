@@ -8,5 +8,6 @@ const controller = new FeedbackController()
 router.post('/feedback', controller.create)
 router.get('/feedback', authMiddleware, controller.getAll)
 router.put('/feedback/:id/read', authMiddleware, controller.markAsRead)
+router.delete('/feedback/:id', authMiddleware, controller.delete)
 
 export default router
