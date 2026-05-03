@@ -59,6 +59,22 @@ export class UserController {
     return res.status(result.success ? 200 : 400).json(result)
   }
 
+  updateProfile = async (req: Request, res: Response) => {
+    const requestor = (req as any).user
+    if (!requestor) return res.status(401).json({ success: false, message: 'Unauthorized' })
+
+    const result = await this.userService.updateProfile(requestor.id, req.body)
+    return res.status(result.success ? 200 : 400).json(result)
+  }
+
+  updatePassword = async (req: Request, res: Response) => {
+    const requestor = (req as any).user
+    if (!requestor) return res.status(401).json({ success: false, message: 'Unauthorized' })
+
+    const result = await this.userService.updatePassword(requestor.id, req.body)
+    return res.status(result.success ? 200 : 400).json(result)
+  }
+
   deleteUser = async (req: Request, res: Response) => {
     const parsedId = parseInt(req.params.id)
     if (isNaN(parsedId)) return res.status(400).json({ success: false, message: 'Invalid ID format' })
