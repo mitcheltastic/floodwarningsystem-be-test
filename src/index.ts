@@ -18,10 +18,17 @@ import { startBbwsSyncJob } from './jobs/bbwsSyncJob';
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Security Middleware
-app.use(helmet());
+// Parse CORS_ORIGIN dari .env biar bisa baca banyak URL yang dipisah koma
+const allowedOrigins = process.env.CORS_ORIGIN 
+  ? process.env.CORS_ORIGIN.split(',').map(url => url.trim())
+  : '*';
+
+// Security Middleware 
+app.use(helmet({
+  crossOriginResourcePolicy: false, // <-- THIS IS THE MAGIC FIX
+}));
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || '*',
+  origin: allowedOrigins,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
