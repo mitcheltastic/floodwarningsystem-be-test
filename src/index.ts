@@ -28,7 +28,10 @@ app.use(helmet({
   crossOriginResourcePolicy: false, // <-- THIS IS THE MAGIC FIX
 }));
 app.use(cors({
-  origin: allowedOrigins,
+  origin: [
+    'http://localhost:3000',
+    'https://w2cmkvbv-3000.asse.devtunnels.ms'
+  ],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
