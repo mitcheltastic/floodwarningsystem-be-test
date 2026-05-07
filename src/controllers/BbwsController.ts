@@ -163,7 +163,6 @@ export class BbwsController {
   createDebit = async (req: Request, res: Response) => {
     try {
       const { stationId, debit } = req.body
-      // 2. UBAH DI SINI JUGA
       const data = await this.bbwsService.createDebit(stationId, debit)
       
       await this.logService.logAction(req.user?.id, 'CREATE', 'BbwsDebit', `Input debit air di ${data.station.name}: ${debit} m³/s`)
@@ -177,7 +176,6 @@ export class BbwsController {
   createRainfall = async (req: Request, res: Response) => {
     try {
       const { stationId, rainfall } = req.body
-      // 3. UBAH DI SINI JUGA
       const data = await this.bbwsService.createRainfall(stationId, rainfall)
       
       await this.logService.logAction(req.user?.id, 'CREATE', 'BbwsRainfall', `Input curah hujan di ${data.station.name}: ${rainfall} mm`)
@@ -191,7 +189,6 @@ export class BbwsController {
   getHistoryLive = async (req: Request, res: Response) => {
     try {
       const limit = Number(req.query.limit) || 5
-      // 4. UBAH DI SINI JUGA
       const data = await this.bbwsService.getHistoryLive(limit)
       return res.status(200).json({ success: true, data })
     } catch (error) {
