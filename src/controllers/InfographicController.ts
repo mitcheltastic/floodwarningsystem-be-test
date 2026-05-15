@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { InfographicService } from '../services/InfographicService'
-import { InfographicCreateRequest, InfographicUpdateRequest, Role } from '../types'
+import { InfographicCreateRequest, InfographicUpdateRequest, Role, UserPayload } from '../types'
 
 export class InfographicController {
   private infographicService = new InfographicService()

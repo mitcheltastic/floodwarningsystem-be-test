@@ -8,6 +8,7 @@ import {
   BbwsWaterLevelCreateRequest,
   BbwsWaterLevelUpdateRequest,
   Role,
+  UserPayload,
 } from '../types'
 
 export class BbwsController {
