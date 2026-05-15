@@ -24,7 +24,7 @@ export const optionalAuthMiddleware = (req: Request, res: Response, next: NextFu
     }
 
     const decoded = jwt.verify(token, jwtSecret) as UserPayload
-    req.user = decoded
+    (req as any).user = decoded
     
     return next()
   } catch {
