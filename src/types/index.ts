@@ -140,3 +140,69 @@ export interface RegionUpdateCreateRequest {
 }
 
 export interface RegionUpdateUpdateRequest extends Partial<RegionUpdateCreateRequest> {}
+
+export interface WilayahPantauanCreateRequest {
+  nama: string
+  latitude: number
+  longitude: number
+}
+
+export interface WilayahPantauanUpdateRequest {
+  nama?: string
+  latitude?: number
+  longitude?: number
+}
+
+export interface PosPantauCreateRequest {
+  nama: string
+  latitude: number
+  longitude: number
+}
+
+export interface PosPantauUpdateRequest {
+  nama?: string
+  latitude?: number
+  longitude?: number
+}
+
+export interface PemantauanTerpaduCreateRequest {
+  wilayahId: number
+  posId: number
+  curahHujan?: number
+  debitAir?: number
+  tinggiMukaAir?: number
+  tinggiGenangan?: number
+  suhuUdara?: number
+  kecepatanAngin?: number
+}
+
+export interface PemantauanTerpaduUpdateRequest {
+  wilayahId?: number
+  posId?: number
+  curahHujan?: number
+  debitAir?: number
+  tinggiMukaAir?: number
+  tinggiGenangan?: number
+  suhuUdara?: number
+  kecepatanAngin?: number
+}
+
+export interface PredictionResultCreateRequest {
+  inputReceived: any
+  classProbability: any
+  description: string
+  floodClass: number
+  floodLevel: string
+  riskLevel: string
+  tmaValue: number
+}
+
+export interface PredictionResultUpdateRequest {
+  inputReceived?: any
+  classProbability?: any
+  description?: string
+  floodClass?: number
+  floodLevel?: string
+  riskLevel?: string
+  tmaValue?: number
+}

@@ -247,3 +247,52 @@ model BmkgRainfall {
   @@index([stationId, measuredAt])
   @@index([measuredAt])
 }
+model WilayahPantauan {
+  id                Int                  @id @default(autoincrement())
+  nama              String
+  latitude          Float
+  longitude         Float
+  createdAt         DateTime             @default(now())
+  updatedAt         DateTime             @updatedAt
+  pemantauanTerpadu PemantauanTerpadu[]
+}
+
+model PosPantau {
+  id                Int                  @id @default(autoincrement())
+  nama              String
+  latitude          Float
+  longitude         Float
+  createdAt         DateTime             @default(now())
+  updatedAt         DateTime             @updatedAt
+  pemantauanTerpadu PemantauanTerpadu[]
+}
+
+model PemantauanTerpadu {
+  id              Int             @id @default(autoincrement())
+  wilayahId       Int
+  posId           Int
+  curahHujan      Float?
+  debitAir        Float?
+  tinggiMukaAir   Float?
+  tinggiGenangan  Float?
+  suhuUdara       Float?
+  kecepatanAngin  Float?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  wilayah         WilayahPantauan @relation(fields: [wilayahId], references: [id], onDelete: Cascade)
+  pos             PosPantau       @relation(fields: [posId], references: [id], onDelete: Cascade)
+}
+
+model PredictionResult {
+  id              Int             @id @default(autoincrement())
+  inputReceived   Json
+  classProbability Json
+  description     String
+  floodClass      Int
+  floodLevel      String
+  riskLevel       String
+  tmaValue        Float
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+}

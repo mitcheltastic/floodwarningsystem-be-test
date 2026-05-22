@@ -14,6 +14,10 @@ import regionUpdateRoutes from './routes/regionUpdateRoutes';
 import bmkgRoutes from './routes/bmkgRoutes';
 import bpbdRoutes from './routes/bpbdRoutes';
 import citraBanjirRoutes from './routes/citraBanjirRoutes';
+import wilayahPantauanRoutes from './routes/wilayahPantauanRoutes';
+import posPantauRoutes from './routes/posPantauRoutes';
+import pemantauanTerpaduRoutes from './routes/pemantauanTerpaduRoutes';
+import predictionResultRoutes from './routes/predictionResultRoutes';
 import { errorHandler } from './middlewares/errorHandler';
 import { startBbwsSyncJob } from './jobs/bbwsSyncJob';
 
@@ -62,6 +66,10 @@ app.use('/api', feedbackRoutes);
 app.use('/api', activityLogRoutes);
 app.use('/api', reportRoutes);
 app.use('/api', regionUpdateRoutes);
+app.use('/api', wilayahPantauanRoutes);
+app.use('/api', posPantauRoutes);
+app.use('/api', pemantauanTerpaduRoutes);
+app.use('/api', predictionResultRoutes);
 
 // Health check
 app.get('/api/health', async (req, res) => {
