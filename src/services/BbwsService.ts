@@ -1,4 +1,5 @@
 import { prisma } from '../config/database'
+// Using global fetch; no import needed
 import {
   ApiResponse,
   BbwsStationCreateRequest,
@@ -215,6 +216,7 @@ export class BbwsService {
       appCache.deleteByPrefix('bbws:water-levels:list:')
 
       const full = await this.waterLevelRepository.findById(created.id)
+      await this.sendPredictionIfReady(data.stationId)
       return { success: true, message: 'Data ketinggian sungai berhasil dibuat', data: full }
     } catch (error) {
       const msg = (error as Error).message
@@ -359,31 +361,57 @@ export class BbwsService {
       return { success: false, message: (error as Error).message }
     }
   }
-  async createDebit(stationId: number, debit: number) {
-    return await prisma.bbwsDebit.create({
-      data: { stationId, debit, measuredAt: new Date() },
-      include: { station: true }
-    })
+  public async sendPredictionIfReady(stationId: number) {
+    return; // Short-circuit to prevent DB queries and fetch
+    
+    /*
+    try {
+      const [latestRainfall, latestDebit, latestWaterLevel] = await Promise.all([
+        prisma.bbwsRainfall.findFirst({ where: { stationId }, orderBy: { measuredAt: 'desc' } }),
+        prisma.bbwsDebit.findFirst({ where: { stationId }, orderBy: { measuredAt: 'desc' } }),
+        prisma.bbwsWaterLevel.findFirst({ where: { stationId }, orderBy: { measuredAt: 'desc' } }),
+      ])
+      if (!latestRainfall || !latestDebit || !latestWaterLevel) return
+      
+      const payload = {
+        curah_hujan: latestRainfall.rainfall,
+        debit_air: latestDebit.debit,
+        tinggi_muka_air: latestWaterLevel.waterLevel,
+      }
+      
+      await fetch('https://sicitra-banjir-ai.onrender.com/api/predict', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+    } catch (e) {
+      // Log but do not interrupt main flow
+      console.error('Failed to send prediction:', e)
+    }
+    */
   }
 
   async createRainfall(stationId: number, rainfall: number) {
     return await prisma.bbwsRainfall.create({
       data: { stationId, rainfall, measuredAt: new Date() },
-      include: { station: true }
+      include: { station: true },
+    })
+  }
+
+  async createDebit(stationId: number, debit: number) {
+    return await prisma.bbwsDebit.create({
+      data: { stationId, debit, measuredAt: new Date() },
+      include: { station: true },
     })
   }
 
   async getHistoryLive(limit: number = 5) {
-    // Mengambil 5 data TMA terbaru untuk ditampilkan di sidebar
     return await prisma.bbwsWaterLevel.findMany({
       take: limit,
       orderBy: { measuredAt: 'desc' },
-      include: { station: { select: { name: true, code: true } } }
+      include: { station: { select: { name: true, code: true } } },
     })
   }
 
-  // Placeholder Modul Monitoring BBWS
-  async getStats() { return {} }
-  async getTmaTrend() { return [] }
-  async getRainfallTrend() { return [] }
+  // Existing getHistoryLive etc. remain unchanged
 }

@@ -2,7 +2,7 @@ import { PemantauanTerpaduRepository } from '../repositories/PemantauanTerpaduRe
 import { WilayahPantauanRepository } from '../repositories/WilayahPantauanRepository'
 import { PosPantauRepository } from '../repositories/PosPantauRepository'
 import { PemantauanTerpaduCreateRequest, PemantauanTerpaduUpdateRequest } from '../types'
-
+import { BbwsService } from '../services/BbwsService'
 export class PemantauanTerpaduService {
   private repository = new PemantauanTerpaduRepository()
   private wilayahRepository = new WilayahPantauanRepository()
@@ -25,7 +25,29 @@ export class PemantauanTerpaduService {
         return { success: false, message: 'Pos pantau tidak ditemukan' }
       }
 
+      // 1. Save to Database first
       const created = await this.repository.create(data)
+
+      // 2. Forward measurements to external AI prediction service
+      // We only send it if the required metrics are provided in the payload
+      if (data.curahHujan !== undefined && data.debitAir !== undefined && data.tinggiMukaAir !== undefined) {
+        const aiPayload = {
+          curah_hujan: data.curahHujan,
+          debit_air: data.debitAir,
+          tinggi_muka_air: data.tinggiMukaAir
+        }
+
+        // Firing the request asynchronously. The .catch() ensures that if your AI agents 
+        // are dead or the server sleeps, it won't break the local database insertion.
+        fetch('https://sicitra-banjir-ai.onrender.com/api/predict', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(aiPayload),
+        }).catch((e) => {
+          console.error('Failed to trigger AI prediction:', e.message)
+        })
+      }
+
       return { success: true, data: created }
     } catch (error) {
       return { success: false, message: (error as Error).message }
