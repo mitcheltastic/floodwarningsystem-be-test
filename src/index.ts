@@ -48,7 +48,8 @@ app.use(helmet({
 app.use(cors({
   origin: [
     'http://localhost:3000',
-    'https://w2cmkvbv-3000.asse.devtunnels.ms'
+    'https://w2cmkvbv-3000.asse.devtunnels.ms',
+    'https://citra-banjir-fe.vercel.app/',
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
