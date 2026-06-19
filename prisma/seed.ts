@@ -1,8 +1,6 @@
 import 'dotenv/config'
-import { PrismaClient } from '@prisma/client'
+import { prisma } from '../src/config/database'
 import bcrypt from 'bcrypt'
-
-const prisma = new PrismaClient()
 
 async function main() {
   const email = 'superadmin@system.com'
