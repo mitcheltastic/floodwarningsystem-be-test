@@ -18,6 +18,7 @@ import wilayahPantauanRoutes from './routes/wilayahPantauanRoutes';
 import posPantauRoutes from './routes/posPantauRoutes';
 import pemantauanTerpaduRoutes from './routes/pemantauanTerpaduRoutes';
 import predictionResultRoutes from './routes/predictionResultRoutes';
+import pendidikanRoutes from './routes/pendidikanRoutes';
 import { errorHandler } from './middlewares/errorHandler';
 import { startBbwsSyncJob } from './jobs/bbwsSyncJob';
 
@@ -71,6 +72,7 @@ app.use('/api', wilayahPantauanRoutes);
 app.use('/api', posPantauRoutes);
 app.use('/api', pemantauanTerpaduRoutes);
 app.use('/api', predictionResultRoutes);
+app.use('/api/pendidikan', pendidikanRoutes); // Isolated panel for Instansi Pendidikan Kabupaten Bandung
 
 // Health check
 app.get('/api/health', async (req, res) => {
